@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HughesBot — Hughes Group Knowledge Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #F5F7FA;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1B5E20, #2E7D32);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    z-index: 100;
+  }
+
+  .header-logo {
+    width: 44px;
+    height: 44px;
+    background: #F9A825;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #1B5E20;
+    flex-shrink: 0;
+  }
+
+  .header-info { flex: 1; }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+  }
+
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.12);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    background: #69F0AE;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Chat container */
+  .chat-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Override n8n chat styles to make it full page */
+  #n8n-chat {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+
+  /* Hide n8n's default launcher button */
+  .n8n-chat .chat-window-toggle { display: none !important; }
+
+  /* Make chat window fill container */
+  .n8n-chat .chat-window-wrapper {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .n8n-chat .chat-window {
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  /* Style n8n chat to match Hughes theme */
+  .n8n-chat .chat-header {
+    display: none !important;
+  }
+
+  .n8n-chat .chat-input button {
+    background: #2E7D32 !important;
+  }
+
+  .n8n-chat .chat-input button:hover {
+    background: #1B5E20 !important;
+  }
+
+  .n8n-chat .chat-message-bot .chat-message-bubble {
+    background: #F0F7F0 !important;
+    color: #1A1A2E !important;
+  }
+
+  .n8n-chat .chat-message-user .chat-message-bubble {
+    background: #2E7D32 !important;
+    color: #fff !important;
+  }
+
+  .n8n-chat .chat-input textarea {
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  /* Quick action buttons */
+  .quick-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    background: white;
+    border-bottom: 1px solid #E2E8F0;
+    z-index: 50;
+  }
+
+  .quick-btn {
+    background: white;
+    border: 1px solid #E2E8F0;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #2E7D32;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .quick-btn:hover {
+    background: #F0F7F0;
+    border-color: #4CAF50;
+    transform: translateY(-1px);
+  }
+
+  .powered-by {
+    text-align: center;
+    font-size: 10px;
+    color: #A0AEC0;
+    padding: 4px 0;
+    background: white;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 12px 16px; }
+    .header-title { font-size: 16px; }
+    .quick-actions { gap: 6px; }
+    .quick-btn { font-size: 11px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">H</div>
+  <div class="header-info">
+    <div class="header-title">HughesBot</div>
+    <div class="header-subtitle">Hughes Group Knowledge Assistant</div>
+  </div>
+  <div class="header-status">
+    <span class="status-dot"></span>
+    Online
+  </div>
+</div>
+
+<div class="quick-actions" id="quickActions">
+  <button class="quick-btn" onclick="sendQuick('What is the GRN accuracy rate target?')">📊 GRN Accuracy</button>
+  <button class="quick-btn" onclick="sendQuick('What is the HR taxonomy?')">👥 HR Taxonomy</button>
+  <button class="quick-btn" onclick="sendQuick('What is the budget variance target?')">💰 Budget Variance</button>
+  <button class="quick-btn" onclick="sendQuick('Tell me about the finance SOP')">📋 Finance SOP</button>
+</div>
+
+<div class="chat-container">
+  <div id="n8n-chat"></div>
+</div>
+
+<div class="powered-by">Powered by Hughes Group AI</div>
+
+<script type="module">
+  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+  const chat = createChat({
+    webhookUrl: 'https://hughesservices.app.n8n.cloud/webhook/hughes-kb-chat/chat',
+    target: '#n8n-chat',
+    mode: 'fullscreen',
+    showWelcomeScreen: false,
+    initialMessages: [
+      'Hi! I\'m **HughesBot**, your Hughes Group knowledge assistant. 👋',
+      'I can answer questions about company **SOPs, policies, KPIs, finance, HR** and more. Ask me anything!'
+    ],
+    i18n: {
+      en: {
+        title: '',
+        subtitle: '',
+        inputPlaceholder: 'Ask anything about Hughes Group...',
+        getStarted: 'Start Chatting',
+        closeButtonTooltip: 'Close',
+      },
+    },
+    metadata: {},
+  });
+
+  // Quick action handler
+  window.sendQuick = function(text) {
+    const textarea = document.querySelector('.n8n-chat .chat-input textarea');
+    const sendButton = document.querySelector('.n8n-chat .chat-input button');
+    if (textarea && sendButton) {
+      textarea.value = text;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      setTimeout(() => sendButton.click(), 100);
+      document.getElementById('quickActions').style.display = 'none';
+    }
+  };
+</script>
+
+</body>
+</html>
