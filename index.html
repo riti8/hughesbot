@@ -8,14 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-:root{
-  --blush:#F9E4E0;--rose:#E8A0BF;--mauve:#BA90C6;
-  --lavender:#C0DBEA;--sage:#D4E7C5;--cream:#FFF8F0;
-  --charcoal:#2D2A32;--dim:#6B6575;
-  --glass:rgba(255,255,255,0.55);--glass-border:rgba(255,255,255,0.35);
-}
-
+:root{--blush:#F9E4E0;--rose:#E8A0BF;--mauve:#BA90C6;--lavender:#C0DBEA;--sage:#D4E7C5;--cream:#FFF8F0;--charcoal:#2D2A32;--dim:#6B6575;--glass:rgba(255,255,255,0.55);--glass-border:rgba(255,255,255,0.35)}
 body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
 .bg-blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
@@ -27,30 +20,24 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 @keyframes float{0%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(0.95)}100%{transform:translate(10px,-10px) scale(1.02)}}
 
 .header{position:relative;z-index:10;padding:16px 20px;display:flex;align-items:center;gap:12px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
-
 .back-btn{width:36px;height:36px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;color:var(--charcoal);font-size:18px}
 .back-btn:hover{background:var(--blush);border-color:var(--rose);transform:translateX(-2px)}
 .back-btn.visible{display:flex}
-
 .ava-avatar{width:44px;height:44px;background:linear-gradient(135deg,var(--rose),var(--mauve));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,160,191,0.35);animation:gentle-bounce 3s ease-in-out infinite;flex-shrink:0}
 @keyframes gentle-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-
 .header-info{flex:1}
 .header-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--charcoal);letter-spacing:-0.5px}
 .header-subtitle{font-size:11px;color:var(--dim);margin-top:1px}
-
 .status-pill{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:var(--dim);background:var(--glass);border:1px solid var(--glass-border);padding:5px 14px;border-radius:20px;backdrop-filter:blur(10px)}
 .status-dot{width:7px;height:7px;background:var(--sage);border-radius:50%;box-shadow:0 0 6px rgba(212,231,197,0.8);animation:glow 2s infinite}
 @keyframes glow{0%,100%{opacity:1}50%{opacity:0.5}}
 
 .main{flex:1;position:relative;z-index:5;display:flex;flex-direction:column;overflow:hidden}
-
 .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:18px;text-align:center;animation:fadeIn 0.6s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .welcome-ghost{font-size:64px;animation:gentle-bounce 3s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(232,160,191,0.3))}
 .welcome h2{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--charcoal);letter-spacing:-0.5px}
 .welcome p{font-size:14px;color:var(--dim);max-width:340px;line-height:1.6}
-
 .suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:460px;margin-top:4px}
 .suggest-pill{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-border);padding:10px 18px;border-radius:24px;font-size:13px;font-family:'Outfit',sans-serif;font-weight:500;color:var(--charcoal);cursor:pointer;transition:all 0.25s cubic-bezier(.4,0,.2,1);white-space:nowrap}
 .suggest-pill:hover{background:linear-gradient(135deg,var(--blush),rgba(186,144,198,0.15));border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,160,191,0.2)}
@@ -58,112 +45,136 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 
 .chat-wrap{flex:1;position:relative;overflow:hidden;display:none}
 .chat-wrap.active{display:flex;flex-direction:column}
-
 #n8n-chat{width:100%!important;height:100%!important;position:absolute!important;inset:0}
 
-/* =========================================
-   AGGRESSIVE N8N OVERRIDES
-   ========================================= */
-
-/* Hide default toggle & header */
+/* =============================================
+   N8N CHAT — NUCLEAR OVERRIDES
+   ============================================= */
 .n8n-chat .chat-window-toggle{display:none!important}
 .n8n-chat .chat-header{display:none!important}
-
-/* Fullscreen the chat */
 .n8n-chat .chat-window-wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:100%!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
 .n8n-chat .chat-window{height:100%!important;border-radius:0!important;background:transparent!important}
-.n8n-chat .chat-messages-list{background:transparent!important;padding:20px 16px!important}
-
-/* Hide avatars */
+.n8n-chat .chat-messages-list{background:transparent!important;padding:20px 20px!important}
 .n8n-chat .chat-message-bot .chat-message-avatar,.n8n-chat .chat-message-user .chat-message-avatar{display:none!important}
 
-/* BOT BUBBLE — constrained width, proper wrap */
+/* BOT MESSAGE ROW */
 .n8n-chat .chat-message-bot{
-  max-width:75%!important;
-  width:fit-content!important;
+  max-width:72%!important;
+  width:auto!important;
   margin-right:auto!important;
+  margin-left:0!important;
+  margin-bottom:12px!important;
 }
 
-.n8n-chat .chat-message-bot .chat-message-bubble{
-  background:rgba(255,255,255,0.7)!important;
-  backdrop-filter:blur(12px)!important;
-  border:1.5px solid rgba(232,160,191,0.2)!important;
-  color:var(--charcoal)!important;
-  border-radius:4px 20px 20px 20px!important;
+/* BOT BUBBLE */
+.n8n-chat .chat-message-bot .chat-message-bubble,
+.n8n-chat .chat-message-bot .chat-message-bubble *{
   font-family:'Outfit',sans-serif!important;
-  font-size:13.5px!important;
-  line-height:1.65!important;
-  padding:16px 20px!important;
+  color:var(--charcoal)!important;
   word-wrap:break-word!important;
   overflow-wrap:break-word!important;
   word-break:break-word!important;
-  white-space:normal!important;
-  box-shadow:0 2px 16px rgba(186,144,198,0.08)!important;
 }
 
-/* Bullet alignment inside bot bubble */
-.n8n-chat .chat-message-bot .chat-message-bubble ul,
+.n8n-chat .chat-message-bot .chat-message-bubble{
+  background:rgba(255,255,255,0.72)!important;
+  backdrop-filter:blur(12px)!important;
+  border:1.5px solid rgba(232,160,191,0.18)!important;
+  border-radius:4px 18px 18px 18px!important;
+  font-size:13.5px!important;
+  line-height:1.7!important;
+  padding:18px 22px!important;
+  box-shadow:0 2px 16px rgba(186,144,198,0.06)!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+}
+
+/* BULLET POINTS — proper indentation */
+.n8n-chat .chat-message-bot .chat-message-bubble ul{
+  list-style-type:disc!important;
+  padding-left:22px!important;
+  margin:10px 0!important;
+  display:block!important;
+}
+
 .n8n-chat .chat-message-bot .chat-message-bubble ol{
-  padding-left:18px!important;margin:6px 0!important;
+  list-style-type:decimal!important;
+  padding-left:22px!important;
+  margin:10px 0!important;
+  display:block!important;
 }
+
 .n8n-chat .chat-message-bot .chat-message-bubble li{
-  margin-bottom:4px!important;padding-left:2px!important;
+  margin-bottom:6px!important;
+  padding-left:6px!important;
+  display:list-item!important;
+  line-height:1.6!important;
 }
-.n8n-chat .chat-message-bot .chat-message-bubble p{margin-bottom:6px!important}
-.n8n-chat .chat-message-bot .chat-message-bubble p:last-child{margin-bottom:0!important}
+
+.n8n-chat .chat-message-bot .chat-message-bubble p{
+  margin-bottom:8px!important;
+  display:block!important;
+}
+
+.n8n-chat .chat-message-bot .chat-message-bubble p:last-child{
+  margin-bottom:0!important;
+}
+
+/* USER MESSAGE ROW */
+.n8n-chat .chat-message-user{
+  max-width:65%!important;
+  width:auto!important;
+  margin-left:auto!important;
+  margin-right:0!important;
+  margin-bottom:12px!important;
+}
 
 /* USER BUBBLE */
-.n8n-chat .chat-message-user{
-  max-width:70%!important;
-  width:fit-content!important;
-  margin-left:auto!important;
-}
-
 .n8n-chat .chat-message-user .chat-message-bubble{
   background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
   color:#fff!important;
-  border-radius:20px 4px 20px 20px!important;
+  border-radius:18px 4px 18px 18px!important;
   font-family:'Outfit',sans-serif!important;
   font-size:13.5px!important;
   line-height:1.55!important;
   padding:14px 20px!important;
   border:none!important;
   box-shadow:0 4px 16px rgba(232,160,191,0.25)!important;
+  word-wrap:break-word!important;
+  overflow-wrap:break-word!important;
 }
 
-/* INPUT AREA */
-.n8n-chat .chat-input{
-  background:var(--glass)!important;backdrop-filter:blur(16px)!important;
-  border-top:1px solid var(--glass-border)!important;padding:12px 16px!important;
+.n8n-chat .chat-message-user .chat-message-bubble,
+.n8n-chat .chat-message-user .chat-message-bubble *{
+  color:#fff!important;
 }
-.n8n-chat .chat-input textarea{
-  font-family:'Outfit',sans-serif!important;font-size:14px!important;
-  background:rgba(255,255,255,0.65)!important;
-  border:1.5px solid rgba(232,160,191,0.2)!important;
-  border-radius:16px!important;padding:12px 18px!important;
-}
+
+/* INPUT */
+.n8n-chat .chat-input{background:var(--glass)!important;backdrop-filter:blur(16px)!important;border-top:1px solid var(--glass-border)!important;padding:12px 16px!important}
+.n8n-chat .chat-input textarea{font-family:'Outfit',sans-serif!important;font-size:14px!important;background:rgba(255,255,255,0.65)!important;border:1.5px solid rgba(232,160,191,0.2)!important;border-radius:16px!important;padding:12px 18px!important}
 .n8n-chat .chat-input textarea:focus{border-color:var(--rose)!important;box-shadow:0 0 0 3px rgba(232,160,191,0.15)!important}
-.n8n-chat .chat-input button{
-  background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
-  border-radius:14px!important;box-shadow:0 4px 12px rgba(232,160,191,0.3)!important;transition:all 0.2s!important;
-}
+.n8n-chat .chat-input button{background:linear-gradient(135deg,var(--rose),var(--mauve))!important;border-radius:14px!important;box-shadow:0 4px 12px rgba(232,160,191,0.3)!important;transition:all 0.2s!important}
 .n8n-chat .chat-input button:hover{transform:scale(1.05)!important;box-shadow:0 6px 20px rgba(232,160,191,0.4)!important}
 
-/* SOURCE TAG — super tiny */
-.ava-source{
+/* SOURCE TAG */
+.ava-source-wrap{
   display:block!important;
-  margin-top:10px!important;
+  margin-top:12px!important;
   padding-top:8px!important;
-  border-top:1px solid rgba(186,144,198,0.1)!important;
-  font-size:8px!important;
-  color:#C0B8C8!important;
+  border-top:1px dashed rgba(186,144,198,0.18)!important;
+}
+.ava-source-text{
+  font-size:7px!important;
+  color:#C8C0D0!important;
   font-style:italic!important;
   letter-spacing:0.3px!important;
-  opacity:0.7!important;
-  line-height:1.3!important;
+  opacity:0.5!important;
+  line-height:1.2!important;
+  font-weight:300!important;
+  display:block!important;
 }
 
-/* Error overlay */
+/* ERROR OVERLAY */
 .error-overlay{position:fixed;inset:0;z-index:999;background:rgba(255,248,240,0.92);backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;animation:fadeIn 0.4s ease}
 .error-overlay.show{display:flex}
 .error-ghost{font-size:72px;animation:sad-wobble 2s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(186,144,198,0.3))}
@@ -177,29 +188,20 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 .footer span{background:linear-gradient(135deg,var(--rose),var(--mauve));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
 
 @media(max-width:600px){
-  .header{padding:12px 14px;gap:10px}
-  .header-title{font-size:17px}
+  .header{padding:12px 14px;gap:10px}.header-title{font-size:17px}
   .ava-avatar{width:38px;height:38px;font-size:20px;border-radius:12px}
-  .welcome h2{font-size:22px}
-  .welcome-ghost{font-size:52px}
-  .suggestions{gap:6px}
-  .suggest-pill{font-size:12px;padding:8px 14px}
+  .welcome h2{font-size:22px}.welcome-ghost{font-size:52px}
+  .suggestions{gap:6px}.suggest-pill{font-size:12px;padding:8px 14px}
   .blob{opacity:0.3}
   .n8n-chat .chat-message-bot{max-width:88%!important}
-  .n8n-chat .chat-message-user{max-width:82%!important}
+  .n8n-chat .chat-message-user{max-width:80%!important}
 }
-
 @media(prefers-reduced-motion:reduce){.blob,.ava-avatar,.welcome-ghost,.status-dot,.error-ghost{animation:none}.suggest-pill,.error-retry,.back-btn{transition:none}}
 </style>
 </head>
 <body>
 
-<div class="bg-blobs">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-</div>
+<div class="bg-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="blob blob-4"></div></div>
 
 <div class="error-overlay" id="errorOverlay">
   <div class="error-ghost">😿👻</div>
@@ -215,10 +217,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
     <div class="header-title">Ava</div>
     <div class="header-subtitle">Hughes Group AI Assistant</div>
   </div>
-  <div class="status-pill">
-    <span class="status-dot"></span>
-    Online
-  </div>
+  <div class="status-pill"><span class="status-dot"></span>Online</div>
 </div>
 
 <div class="main">
@@ -235,10 +234,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
       <button class="suggest-pill" onclick="startChat('Who is the managing director?')"><span class="pill-emoji">👤</span>Leadership</button>
     </div>
   </div>
-
-  <div class="chat-wrap" id="chatWrap">
-    <div id="n8n-chat"></div>
-  </div>
+  <div class="chat-wrap" id="chatWrap"><div id="n8n-chat"></div></div>
 </div>
 
 <div class="footer">Powered by <span>Ava AI</span> · Hughes Group</div>
@@ -252,7 +248,6 @@ let sessionId = 'ava_' + Math.random().toString(36).substr(2, 12);
 function initChat() {
   if (chatStarted) return;
   chatStarted = true;
-
   document.getElementById('welcomeScreen').style.display = 'none';
   document.getElementById('chatWrap').classList.add('active');
   document.getElementById('backBtn').classList.add('visible');
@@ -265,32 +260,19 @@ function initChat() {
     initialMessages: [
       "Hey! 👻 I'm **Ava**, your Hughes Group AI assistant. Ask me anything about our company, SOPs, policies, or services!"
     ],
-    i18n: {
-      en: {
-        title: '',
-        subtitle: '',
-        inputPlaceholder: 'Ask Ava anything...',
-        getStarted: 'Start Chatting',
-      },
-    },
+    i18n: { en: { title: '', subtitle: '', inputPlaceholder: 'Ask Ava anything...', getStarted: 'Start Chatting' } },
     metadata: { sessionId: sessionId },
   });
 
-  // Monitor for errors — only after user has sent at least 1 message
+  // Error monitor — only after user sends message
   let userSentMessage = false;
-
   setTimeout(() => {
     const chatMessages = document.querySelector('.n8n-chat .chat-messages-list');
     if (!chatMessages) return;
-
     const observer = new MutationObserver((mutations) => {
-      // Track when user sends a message
       const userBubbles = chatMessages.querySelectorAll('.chat-message-user');
       if (userBubbles.length > 0) userSentMessage = true;
-
-      // Only show error ghost if user already sent a message
       if (!userSentMessage) return;
-
       mutations.forEach((m) => {
         m.addedNodes.forEach((node) => {
           if (node.nodeType === 1 && node.textContent) {
@@ -302,43 +284,26 @@ function initChat() {
         });
       });
     });
-
     observer.observe(chatMessages, { childList: true, subtree: true });
   }, 2000);
 
-  // Source text styler — runs every 400ms to catch new messages
-  setInterval(styleSourceText, 400);
-}
-
-function styleSourceText() {
-  const bubbles = document.querySelectorAll('.n8n-chat .chat-message-bot .chat-message-bubble');
-  bubbles.forEach(bubble => {
-    if (bubble.dataset.styled === 'done') return;
-
-    const walker = document.createTreeWalker(bubble, NodeFilter.SHOW_TEXT, null, false);
-    let node;
-    while (node = walker.nextNode()) {
-      const txt = node.textContent;
-      const idx = txt.indexOf('Source:');
-      if (idx !== -1) {
-        const before = txt.substring(0, idx);
-        const sourceText = txt.substring(idx);
-
-        const beforeNode = document.createTextNode(before);
-        const sourceSpan = document.createElement('span');
-        sourceSpan.className = 'ava-source';
-        sourceSpan.textContent = sourceText;
-
-        const parent = node.parentNode;
-        parent.insertBefore(beforeNode, node);
-        parent.insertBefore(sourceSpan, node);
-        parent.removeChild(node);
-
-        bubble.dataset.styled = 'done';
-        return;
+  // Source text styler — aggressive innerHTML replace
+  setInterval(() => {
+    const bubbles = document.querySelectorAll('.n8n-chat .chat-message-bot .chat-message-bubble');
+    bubbles.forEach(bubble => {
+      if (bubble.dataset.srcDone) return;
+      const rawHTML = bubble.innerHTML;
+      if (rawHTML.includes('Source:') && !rawHTML.includes('ava-source')) {
+        // Replace Source: ... with styled version
+        // Handle: "Source: xyz" at end of text, or after <br>, or inside <p>, or inside <li>
+        bubble.innerHTML = rawHTML.replace(
+          /([^>]?)(Source:\s*[^<]+)/gi,
+          '$1<div class="ava-source-wrap"><span class="ava-source-text">$2</span></div>'
+        );
+        bubble.dataset.srcDone = '1';
       }
-    }
-  });
+    });
+  }, 300);
 }
 
 window.goBack = function() {
@@ -353,21 +318,15 @@ window.goBack = function() {
 window.startChat = function(text) {
   initChat();
   setTimeout(() => {
-    const textarea = document.querySelector('.n8n-chat .chat-input textarea');
-    const sendButton = document.querySelector('.n8n-chat .chat-input button');
-    if (textarea && sendButton) {
-      textarea.value = text;
-      textarea.dispatchEvent(new Event('input', { bubbles: true }));
-      setTimeout(() => sendButton.click(), 200);
-    }
+    const ta = document.querySelector('.n8n-chat .chat-input textarea');
+    const btn = document.querySelector('.n8n-chat .chat-input button');
+    if (ta && btn) { ta.value = text; ta.dispatchEvent(new Event('input', { bubbles: true })); setTimeout(() => btn.click(), 200); }
   }, 800);
 };
 
 window.showError = function() { document.getElementById('errorOverlay').classList.add('show'); };
 window.hideError = function() { document.getElementById('errorOverlay').classList.remove('show'); };
-
 document.addEventListener('keydown', (e) => { if (!chatStarted && e.key === 'Enter') initChat(); });
 </script>
-
 </body>
 </html>
