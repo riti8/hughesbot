@@ -276,25 +276,35 @@ function initChat() {
     metadata: { sessionId: sessionId },
   });
 
-  // Monitor for errors
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((m) => {
-      m.addedNodes.forEach((node) => {
-        if (node.textContent && (
-          node.textContent.includes('Error in workflow') ||
-          node.textContent.includes('rate limit') ||
-          node.textContent.includes('Too Many Requests')
-        )) {
-          showError();
-        }
-      });
-    });
-  });
+  // Monitor for errors — only after user has sent at least 1 message
+  let userSentMessage = false;
 
   setTimeout(() => {
     const chatMessages = document.querySelector('.n8n-chat .chat-messages-list');
-    if (chatMessages) observer.observe(chatMessages, { childList: true, subtree: true });
-  }, 1000);
+    if (!chatMessages) return;
+
+    const observer = new MutationObserver((mutations) => {
+      // Track when user sends a message
+      const userBubbles = chatMessages.querySelectorAll('.chat-message-user');
+      if (userBubbles.length > 0) userSentMessage = true;
+
+      // Only show error ghost if user already sent a message
+      if (!userSentMessage) return;
+
+      mutations.forEach((m) => {
+        m.addedNodes.forEach((node) => {
+          if (node.nodeType === 1 && node.textContent) {
+            const txt = node.textContent.toLowerCase();
+            if (txt.includes('error in workflow') || txt.includes('too many requests')) {
+              showError();
+            }
+          }
+        });
+      });
+    });
+
+    observer.observe(chatMessages, { childList: true, subtree: true });
+  }, 2000);
 
   // Source text styler — runs every 400ms to catch new messages
   setInterval(styleSourceText, 400);
