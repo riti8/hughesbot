@@ -79,12 +79,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 .n8n-chat .chat-message-bot .chat-message-bubble{
   background:rgba(255,255,255,0.72)!important;
   backdrop-filter:blur(12px)!important;
-  border:1.5px solid rgba(232,160,191,0.18)!important;
-  border-radius:4px 18px 18px 18px!important;
+  border:1px solid rgba(232,160,191,0.12)!important;
+  border-radius:22px 22px 22px 6px!important;
   font-size:13.5px!important;
   line-height:1.7!important;
   padding:18px 22px!important;
-  box-shadow:0 2px 16px rgba(186,144,198,0.06)!important;
+  box-shadow:0 4px 20px rgba(186,144,198,0.08), 0 1px 3px rgba(0,0,0,0.02)!important;
   white-space:normal!important;
   overflow:hidden!important;
 }
@@ -133,7 +133,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 .n8n-chat .chat-message-user .chat-message-bubble{
   background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
   color:#fff!important;
-  border-radius:18px 4px 18px 18px!important;
+  border-radius:22px 22px 6px 22px!important;
   font-family:'Outfit',sans-serif!important;
   font-size:13.5px!important;
   line-height:1.55!important;
@@ -151,9 +151,9 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 
 /* INPUT */
 .n8n-chat .chat-input{background:var(--glass)!important;backdrop-filter:blur(16px)!important;border-top:1px solid var(--glass-border)!important;padding:12px 16px!important}
-.n8n-chat .chat-input textarea{font-family:'Outfit',sans-serif!important;font-size:14px!important;background:rgba(255,255,255,0.65)!important;border:1.5px solid rgba(232,160,191,0.2)!important;border-radius:16px!important;padding:12px 18px!important}
+.n8n-chat .chat-input textarea{font-family:'Outfit',sans-serif!important;font-size:14px!important;background:rgba(255,255,255,0.65)!important;border:1.5px solid rgba(232,160,191,0.2)!important;border-radius:22px!important;padding:12px 20px!important}
 .n8n-chat .chat-input textarea:focus{border-color:var(--rose)!important;box-shadow:0 0 0 3px rgba(232,160,191,0.15)!important}
-.n8n-chat .chat-input button{background:linear-gradient(135deg,var(--rose),var(--mauve))!important;border-radius:14px!important;box-shadow:0 4px 12px rgba(232,160,191,0.3)!important;transition:all 0.2s!important}
+.n8n-chat .chat-input button{background:linear-gradient(135deg,var(--rose),var(--mauve))!important;border-radius:50%!important;width:42px!important;height:42px!important;box-shadow:0 4px 14px rgba(232,160,191,0.3)!important;transition:all 0.2s!important}
 .n8n-chat .chat-input button:hover{transform:scale(1.05)!important;box-shadow:0 6px 20px rgba(232,160,191,0.4)!important}
 
 /* SOURCE TAG */
@@ -164,11 +164,11 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
   border-top:1px dashed rgba(186,144,198,0.18)!important;
 }
 .ava-source-text{
-  font-size:7px!important;
+  font-size:8px!important;
   color:#C8C0D0!important;
   font-style:italic!important;
   letter-spacing:0.3px!important;
-  opacity:0.5!important;
+  opacity:0.45!important;
   line-height:1.2!important;
   font-weight:300!important;
   display:block!important;
@@ -296,10 +296,15 @@ function initChat() {
       if (rawHTML.includes('Source:') && !rawHTML.includes('ava-source')) {
         // Replace Source: ... with styled version
         // Handle: "Source: xyz" at end of text, or after <br>, or inside <p>, or inside <li>
-        bubble.innerHTML = rawHTML.replace(
-          /([^>]?)(Source:\s*[^<]+)/gi,
-          '$1<div class="ava-source-wrap"><span class="ava-source-text">$2</span></div>'
-        );
+        // Split at Source: and wrap everything after it
+        const srcIdx = rawHTML.search(/Source:/i);
+        if (srcIdx > -1) {
+          const before = rawHTML.substring(0, srcIdx);
+          const after = rawHTML.substring(srcIdx);
+          // Remove Source text from any parent tags and wrap
+          const cleanSource = after.replace(/<[^>]*>/g, '');
+          bubble.innerHTML = before + '<div class="ava-source-wrap"><span class="ava-source-text">📎 ' + cleanSource + '</span></div>';
+        }
         bubble.dataset.srcDone = '1';
       }
     });
