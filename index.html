@@ -3,256 +3,447 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HughesBot — Hughes Group Knowledge Assistant</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Ava 👻 — Hughes Group AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box}
 
-  body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: #F5F7FA;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+:root{
+  --blush:#F9E4E0;
+  --rose:#E8A0BF;
+  --mauve:#BA90C6;
+  --lavender:#C0DBEA;
+  --sage:#D4E7C5;
+  --cream:#FFF8F0;
+  --charcoal:#2D2A32;
+  --dim:#6B6575;
+  --glass:rgba(255,255,255,0.55);
+  --glass-border:rgba(255,255,255,0.35);
+}
 
-  /* Header */
-  .header {
-    background: linear-gradient(135deg, #1B5E20, #2E7D32);
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    z-index: 100;
-  }
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
 
-  .header-logo {
-    width: 44px;
-    height: 44px;
-    background: #F9A825;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: #1B5E20;
-    flex-shrink: 0;
-  }
+/* Animated gradient blob background */
+.bg-blobs{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+}
 
-  .header-info { flex: 1; }
+.blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:0.45;
+  animation:float 12s ease-in-out infinite alternate;
+}
 
-  .header-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.3px;
-  }
+.blob-1{width:340px;height:340px;background:var(--rose);top:-60px;left:-40px;animation-delay:0s}
+.blob-2{width:280px;height:280px;background:var(--mauve);top:30%;right:-60px;animation-delay:-3s}
+.blob-3{width:320px;height:320px;background:var(--lavender);bottom:-40px;left:30%;animation-delay:-6s}
+.blob-4{width:200px;height:200px;background:var(--sage);top:50%;left:10%;animation-delay:-9s}
 
-  .header-subtitle {
-    font-size: 12px;
-    color: rgba(255,255,255,0.75);
-    margin-top: 2px;
-  }
+@keyframes float{
+  0%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(30px,-20px) scale(1.05)}
+  66%{transform:translate(-20px,15px) scale(0.95)}
+  100%{transform:translate(10px,-10px) scale(1.02)}
+}
 
-  .header-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.85);
-    background: rgba(255,255,255,0.12);
-    padding: 5px 12px;
-    border-radius: 20px;
-  }
+/* Header */
+.header{
+  position:relative;
+  z-index:10;
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--glass-border);
+}
 
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    background: #69F0AE;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
+.ava-avatar{
+  width:48px;
+  height:48px;
+  background:linear-gradient(135deg,var(--rose),var(--mauve));
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  box-shadow:0 4px 16px rgba(232,160,191,0.35);
+  animation:gentle-bounce 3s ease-in-out infinite;
+  flex-shrink:0;
+}
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+@keyframes gentle-bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
 
-  /* Chat container */
-  .chat-container {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-  }
+.header-info{flex:1}
 
-  /* Override n8n chat styles to make it full page */
-  #n8n-chat {
-    width: 100% !important;
-    height: 100% !important;
-    position: absolute !important;
-    top: 0; left: 0; right: 0; bottom: 0;
-  }
+.header-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--charcoal);
+  letter-spacing:-0.5px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
 
-  /* Hide n8n's default launcher button */
-  .n8n-chat .chat-window-toggle { display: none !important; }
+.header-subtitle{
+  font-size:12px;
+  color:var(--dim);
+  margin-top:1px;
+  font-weight:400;
+}
 
-  /* Make chat window fill container */
-  .n8n-chat .chat-window-wrapper {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    max-height: 100% !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-  }
+.status-pill{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-weight:500;
+  color:var(--dim);
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  padding:5px 14px;
+  border-radius:20px;
+  backdrop-filter:blur(10px);
+}
 
-  .n8n-chat .chat-window {
-    height: 100% !important;
-    border-radius: 0 !important;
-  }
+.status-dot{
+  width:7px;height:7px;
+  background:var(--sage);
+  border-radius:50%;
+  box-shadow:0 0 6px rgba(212,231,197,0.8);
+  animation:glow 2s infinite;
+}
 
-  /* Style n8n chat to match Hughes theme */
-  .n8n-chat .chat-header {
-    display: none !important;
-  }
+@keyframes glow{
+  0%,100%{opacity:1;box-shadow:0 0 6px rgba(212,231,197,0.8)}
+  50%{opacity:0.5;box-shadow:0 0 2px rgba(212,231,197,0.4)}
+}
 
-  .n8n-chat .chat-input button {
-    background: #2E7D32 !important;
-  }
+/* Main chat area */
+.main{
+  flex:1;
+  position:relative;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
 
-  .n8n-chat .chat-input button:hover {
-    background: #1B5E20 !important;
-  }
+/* Welcome screen */
+.welcome{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  gap:20px;
+  text-align:center;
+  animation:fadeIn 0.6s ease;
+}
 
-  .n8n-chat .chat-message-bot .chat-message-bubble {
-    background: #F0F7F0 !important;
-    color: #1A1A2E !important;
-  }
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-  .n8n-chat .chat-message-user .chat-message-bubble {
-    background: #2E7D32 !important;
-    color: #fff !important;
-  }
+.welcome-ghost{
+  font-size:64px;
+  animation:gentle-bounce 3s ease-in-out infinite;
+  filter:drop-shadow(0 8px 24px rgba(232,160,191,0.3));
+}
 
-  .n8n-chat .chat-input textarea {
-    font-family: 'Inter', sans-serif !important;
-  }
+.welcome h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:26px;
+  font-weight:700;
+  color:var(--charcoal);
+  letter-spacing:-0.5px;
+}
 
-  /* Quick action buttons */
-  .quick-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 12px 16px;
-    background: white;
-    border-bottom: 1px solid #E2E8F0;
-    z-index: 50;
-  }
+.welcome p{
+  font-size:14px;
+  color:var(--dim);
+  max-width:340px;
+  line-height:1.6;
+}
 
-  .quick-btn {
-    background: white;
-    border: 1px solid #E2E8F0;
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    color: #2E7D32;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-  }
+/* Suggestion pills */
+.suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  max-width:460px;
+  margin-top:4px;
+}
 
-  .quick-btn:hover {
-    background: #F0F7F0;
-    border-color: #4CAF50;
-    transform: translateY(-1px);
-  }
+.suggest-pill{
+  background:var(--glass);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--glass-border);
+  padding:10px 18px;
+  border-radius:24px;
+  font-size:13px;
+  font-family:'Outfit',sans-serif;
+  font-weight:500;
+  color:var(--charcoal);
+  cursor:pointer;
+  transition:all 0.25s cubic-bezier(.4,0,.2,1);
+  white-space:nowrap;
+}
 
-  .powered-by {
-    text-align: center;
-    font-size: 10px;
-    color: #A0AEC0;
-    padding: 4px 0;
-    background: white;
-    border-top: 1px solid #E2E8F0;
-  }
+.suggest-pill:hover{
+  background:linear-gradient(135deg,var(--blush),rgba(186,144,198,0.15));
+  border-color:var(--rose);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(232,160,191,0.2);
+}
 
-  @media (max-width: 600px) {
-    .header { padding: 12px 16px; }
-    .header-title { font-size: 16px; }
-    .quick-actions { gap: 6px; }
-    .quick-btn { font-size: 11px; padding: 6px 12px; }
-  }
+.suggest-pill .pill-emoji{margin-right:6px}
+
+/* Chat container */
+.chat-wrap{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  display:none;
+}
+
+.chat-wrap.active{display:flex;flex-direction:column}
+
+/* n8n chat overrides */
+#n8n-chat{width:100%!important;height:100%!important;position:absolute!important;inset:0}
+
+.n8n-chat .chat-window-toggle{display:none!important}
+
+.n8n-chat .chat-window-wrapper{
+  position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;max-height:100%!important;
+  border-radius:0!important;box-shadow:none!important;
+  background:transparent!important;
+}
+
+.n8n-chat .chat-window{
+  height:100%!important;border-radius:0!important;
+  background:transparent!important;
+}
+
+.n8n-chat .chat-header{display:none!important}
+
+.n8n-chat .chat-messages-list{
+  background:transparent!important;
+  padding:16px!important;
+}
+
+.n8n-chat .chat-message-bot .chat-message-bubble{
+  background:var(--glass)!important;
+  backdrop-filter:blur(12px)!important;
+  border:1px solid var(--glass-border)!important;
+  color:var(--charcoal)!important;
+  border-radius:18px 18px 18px 4px!important;
+  font-family:'Outfit',sans-serif!important;
+  font-size:14px!important;
+  line-height:1.55!important;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04)!important;
+}
+
+.n8n-chat .chat-message-user .chat-message-bubble{
+  background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
+  color:#fff!important;
+  border-radius:18px 18px 4px 18px!important;
+  font-family:'Outfit',sans-serif!important;
+  font-size:14px!important;
+  line-height:1.55!important;
+  box-shadow:0 4px 16px rgba(232,160,191,0.25)!important;
+}
+
+.n8n-chat .chat-input{
+  background:var(--glass)!important;
+  backdrop-filter:blur(16px)!important;
+  border-top:1px solid var(--glass-border)!important;
+  padding:12px 16px!important;
+}
+
+.n8n-chat .chat-input textarea{
+  font-family:'Outfit',sans-serif!important;
+  font-size:14px!important;
+  background:rgba(255,255,255,0.6)!important;
+  border:1px solid var(--glass-border)!important;
+  border-radius:14px!important;
+  padding:10px 16px!important;
+}
+
+.n8n-chat .chat-input textarea:focus{
+  border-color:var(--rose)!important;
+  box-shadow:0 0 0 3px rgba(232,160,191,0.15)!important;
+}
+
+.n8n-chat .chat-input button{
+  background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
+  border-radius:14px!important;
+  box-shadow:0 4px 12px rgba(232,160,191,0.3)!important;
+  transition:all 0.2s!important;
+}
+
+.n8n-chat .chat-input button:hover{
+  transform:scale(1.05)!important;
+  box-shadow:0 6px 20px rgba(232,160,191,0.4)!important;
+}
+
+.n8n-chat .chat-message-bot .chat-message-avatar,
+.n8n-chat .chat-message-user .chat-message-avatar{
+  display:none!important;
+}
+
+/* Footer */
+.footer{
+  position:relative;
+  z-index:10;
+  text-align:center;
+  font-size:10px;
+  color:var(--dim);
+  padding:6px 0;
+  background:var(--glass);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--glass-border);
+  letter-spacing:0.3px;
+}
+
+.footer span{
+  background:linear-gradient(135deg,var(--rose),var(--mauve));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:600;
+}
+
+/* Mobile */
+@media(max-width:600px){
+  .header{padding:14px 16px}
+  .header-title{font-size:18px}
+  .welcome h2{font-size:22px}
+  .welcome-ghost{font-size:52px}
+  .suggestions{gap:6px}
+  .suggest-pill{font-size:12px;padding:8px 14px}
+  .blob{opacity:0.3}
+}
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .blob,.ava-avatar,.welcome-ghost,.status-dot{animation:none}
+  .suggest-pill{transition:none}
+}
 </style>
 </head>
 <body>
 
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
 <div class="header">
-  <div class="header-logo">H</div>
+  <div class="ava-avatar">👻</div>
   <div class="header-info">
-    <div class="header-title">HughesBot</div>
-    <div class="header-subtitle">Hughes Group Knowledge Assistant</div>
+    <div class="header-title">Ava</div>
+    <div class="header-subtitle">Hughes Group AI Assistant</div>
   </div>
-  <div class="header-status">
+  <div class="status-pill">
     <span class="status-dot"></span>
     Online
   </div>
 </div>
 
-<div class="quick-actions" id="quickActions">
-  <button class="quick-btn" onclick="sendQuick('What is the GRN accuracy rate target?')">📊 GRN Accuracy</button>
-  <button class="quick-btn" onclick="sendQuick('What is the HR taxonomy?')">👥 HR Taxonomy</button>
-  <button class="quick-btn" onclick="sendQuick('What is the budget variance target?')">💰 Budget Variance</button>
-  <button class="quick-btn" onclick="sendQuick('Tell me about the finance SOP')">📋 Finance SOP</button>
+<div class="main">
+  <div class="welcome" id="welcomeScreen">
+    <div class="welcome-ghost">👻</div>
+    <h2>Hey, I'm Ava!</h2>
+    <p>Your friendly Hughes Group knowledge assistant. I know everything about our SOPs, policies, services, KPIs & more. Ask me anything!</p>
+    <div class="suggestions">
+      <button class="suggest-pill" onclick="startChat('What does Hughes Group do?')"><span class="pill-emoji">✨</span>About Hughes</button>
+      <button class="suggest-pill" onclick="startChat('What is the HR taxonomy?')"><span class="pill-emoji">👥</span>HR Taxonomy</button>
+      <button class="suggest-pill" onclick="startChat('What is the GRN accuracy rate target?')"><span class="pill-emoji">📊</span>KPI Targets</button>
+      <button class="suggest-pill" onclick="startChat('What services does Hughes Services provide?')"><span class="pill-emoji">🚀</span>Our Services</button>
+      <button class="suggest-pill" onclick="startChat('Tell me about Anytech Hughes')"><span class="pill-emoji">🌿</span>Anytech Hughes</button>
+      <button class="suggest-pill" onclick="startChat('Who is the managing director?')"><span class="pill-emoji">👤</span>Leadership</button>
+    </div>
+  </div>
+
+  <div class="chat-wrap" id="chatWrap">
+    <div id="n8n-chat"></div>
+  </div>
 </div>
 
-<div class="chat-container">
-  <div id="n8n-chat"></div>
-</div>
-
-<div class="powered-by">Powered by Hughes Group AI</div>
+<div class="footer">Powered by <span>Ava AI</span> · Hughes Group</div>
 
 <script type="module">
-  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-  const chat = createChat({
+let chatStarted = false;
+
+function initChat() {
+  if (chatStarted) return;
+  chatStarted = true;
+
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('chatWrap').classList.add('active');
+
+  createChat({
     webhookUrl: 'https://hughesservices.app.n8n.cloud/webhook/hughes-kb-chat/chat',
     target: '#n8n-chat',
     mode: 'fullscreen',
     showWelcomeScreen: false,
     initialMessages: [
-      'Hi! I\'m **HughesBot**, your Hughes Group knowledge assistant. 👋',
-      'I can answer questions about company **SOPs, policies, KPIs, finance, HR** and more. Ask me anything!'
+      "Hey! 👻 I'm **Ava**, your Hughes Group AI assistant. Ask me anything about our company, SOPs, policies, or services!"
     ],
     i18n: {
       en: {
         title: '',
         subtitle: '',
-        inputPlaceholder: 'Ask anything about Hughes Group...',
+        inputPlaceholder: 'Ask Ava anything...',
         getStarted: 'Start Chatting',
-        closeButtonTooltip: 'Close',
       },
     },
-    metadata: {},
   });
+}
 
-  // Quick action handler
-  window.sendQuick = function(text) {
+window.startChat = function(text) {
+  initChat();
+  setTimeout(() => {
     const textarea = document.querySelector('.n8n-chat .chat-input textarea');
     const sendButton = document.querySelector('.n8n-chat .chat-input button');
     if (textarea && sendButton) {
       textarea.value = text;
       textarea.dispatchEvent(new Event('input', { bubbles: true }));
-      setTimeout(() => sendButton.click(), 100);
-      document.getElementById('quickActions').style.display = 'none';
+      setTimeout(() => sendButton.click(), 200);
     }
-  };
+  }, 800);
+};
+
+// Also init chat if user somehow gets past welcome
+document.addEventListener('keydown', (e) => {
+  if (!chatStarted && e.key === 'Enter') initChat();
+});
 </script>
 
 </body>
