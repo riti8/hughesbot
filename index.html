@@ -48,120 +48,171 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
 #n8n-chat{width:100%!important;height:100%!important;position:absolute!important;inset:0}
 
 /* =============================================
-   N8N CHAT — NUCLEAR OVERRIDES
+   N8N CHAT — MAXIMUM SPECIFICITY OVERRIDES
    ============================================= */
-.n8n-chat .chat-window-toggle{display:none!important}
-.n8n-chat .chat-header{display:none!important}
-.n8n-chat .chat-window-wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:100%!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
-.n8n-chat .chat-window{height:100%!important;border-radius:0!important;background:transparent!important}
-.n8n-chat .chat-messages-list{background:transparent!important;padding:20px 20px!important}
-.n8n-chat .chat-message-bot .chat-message-avatar,.n8n-chat .chat-message-user .chat-message-avatar{display:none!important}
 
-/* BOT MESSAGE ROW */
-.n8n-chat .chat-message-bot{
+/* Hide chrome */
+body .n8n-chat .chat-window-toggle,
+body #n8n-chat .chat-window-toggle{display:none!important}
+body .n8n-chat .chat-header,
+body #n8n-chat .chat-header{display:none!important}
+
+/* Fullscreen */
+body .n8n-chat .chat-window-wrapper,
+body #n8n-chat .chat-window-wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:100%!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+body .n8n-chat .chat-window,
+body #n8n-chat .chat-window{height:100%!important;border-radius:0!important;background:transparent!important}
+body .n8n-chat .chat-messages-list,
+body #n8n-chat .chat-messages-list{background:transparent!important;padding:20px 24px!important}
+
+/* Hide avatars */
+body .n8n-chat .chat-message-bot .chat-message-avatar,
+body .n8n-chat .chat-message-user .chat-message-avatar,
+body #n8n-chat .chat-message-bot .chat-message-avatar,
+body #n8n-chat .chat-message-user .chat-message-avatar{display:none!important}
+
+/* ============ BOT BUBBLE ============ */
+body .n8n-chat .chat-message.chat-message-bot,
+body #n8n-chat .chat-message.chat-message-bot,
+body .n8n-chat .chat-message-bot{
   max-width:72%!important;
   width:auto!important;
   margin-right:auto!important;
   margin-left:0!important;
-  margin-bottom:12px!important;
+  margin-bottom:14px!important;
 }
 
-/* BOT BUBBLE */
-.n8n-chat .chat-message-bot .chat-message-bubble,
-.n8n-chat .chat-message-bot .chat-message-bubble *{
+body .n8n-chat .chat-message-bot .chat-message-bubble,
+body #n8n-chat .chat-message-bot .chat-message-bubble,
+body .n8n-chat .chat-message.chat-message-bot .chat-message-bubble{
+  background:rgba(255,255,255,0.75)!important;
+  backdrop-filter:blur(14px)!important;
+  border:1px solid rgba(232,160,191,0.12)!important;
+  border-radius:24px!important;
   font-family:'Outfit',sans-serif!important;
+  font-size:13.5px!important;
+  line-height:1.7!important;
+  padding:20px 24px!important;
   color:var(--charcoal)!important;
   word-wrap:break-word!important;
   overflow-wrap:break-word!important;
   word-break:break-word!important;
-}
-
-.n8n-chat .chat-message-bot .chat-message-bubble{
-  background:rgba(255,255,255,0.72)!important;
-  backdrop-filter:blur(12px)!important;
-  border:1px solid rgba(232,160,191,0.12)!important;
-  border-radius:22px 22px 22px 6px!important;
-  font-size:13.5px!important;
-  line-height:1.7!important;
-  padding:18px 22px!important;
-  box-shadow:0 4px 20px rgba(186,144,198,0.08), 0 1px 3px rgba(0,0,0,0.02)!important;
   white-space:normal!important;
   overflow:hidden!important;
+  box-shadow:0 4px 24px rgba(186,144,198,0.06),0 1px 3px rgba(0,0,0,0.02)!important;
 }
 
-/* BULLET POINTS — proper indentation */
-.n8n-chat .chat-message-bot .chat-message-bubble ul{
-  list-style-type:disc!important;
-  padding-left:22px!important;
-  margin:10px 0!important;
+/* All text inside bot bubble */
+body .n8n-chat .chat-message-bot .chat-message-bubble *{
+  font-family:'Outfit',sans-serif!important;
+  color:var(--charcoal)!important;
+  word-wrap:break-word!important;
+  overflow-wrap:break-word!important;
+  max-width:100%!important;
+}
+
+/* Paragraphs */
+body .n8n-chat .chat-message-bot .chat-message-bubble p{
+  margin:0 0 8px 0!important;
+  padding:0!important;
+  display:block!important;
+}
+body .n8n-chat .chat-message-bot .chat-message-bubble p:last-child{margin-bottom:0!important}
+
+/* UL bullets — INSIDE the box */
+body .n8n-chat .chat-message-bot .chat-message-bubble ul,
+body #n8n-chat .chat-message-bot .chat-message-bubble ul{
+  list-style:disc inside!important;
+  padding-left:8px!important;
+  margin:8px 0!important;
   display:block!important;
 }
 
-.n8n-chat .chat-message-bot .chat-message-bubble ol{
-  list-style-type:decimal!important;
-  padding-left:22px!important;
-  margin:10px 0!important;
+/* OL numbers — INSIDE the box */
+body .n8n-chat .chat-message-bot .chat-message-bubble ol,
+body #n8n-chat .chat-message-bot .chat-message-bubble ol{
+  list-style:decimal inside!important;
+  padding-left:8px!important;
+  margin:8px 0!important;
   display:block!important;
 }
 
-.n8n-chat .chat-message-bot .chat-message-bubble li{
-  margin-bottom:6px!important;
-  padding-left:6px!important;
+/* List items */
+body .n8n-chat .chat-message-bot .chat-message-bubble li,
+body #n8n-chat .chat-message-bot .chat-message-bubble li{
   display:list-item!important;
+  margin-bottom:5px!important;
+  padding-left:4px!important;
   line-height:1.6!important;
+  list-style-position:inside!important;
 }
 
-.n8n-chat .chat-message-bot .chat-message-bubble p{
-  margin-bottom:8px!important;
-  display:block!important;
-}
-
-.n8n-chat .chat-message-bot .chat-message-bubble p:last-child{
-  margin-bottom:0!important;
-}
-
-/* USER MESSAGE ROW */
-.n8n-chat .chat-message-user{
+/* ============ USER BUBBLE ============ */
+body .n8n-chat .chat-message.chat-message-user,
+body #n8n-chat .chat-message.chat-message-user,
+body .n8n-chat .chat-message-user{
   max-width:65%!important;
   width:auto!important;
   margin-left:auto!important;
   margin-right:0!important;
-  margin-bottom:12px!important;
+  margin-bottom:14px!important;
 }
 
-/* USER BUBBLE */
-.n8n-chat .chat-message-user .chat-message-bubble{
+body .n8n-chat .chat-message-user .chat-message-bubble,
+body #n8n-chat .chat-message-user .chat-message-bubble,
+body .n8n-chat .chat-message.chat-message-user .chat-message-bubble{
   background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
   color:#fff!important;
-  border-radius:22px 22px 6px 22px!important;
+  border-radius:24px!important;
   font-family:'Outfit',sans-serif!important;
   font-size:13.5px!important;
   line-height:1.55!important;
-  padding:14px 20px!important;
+  padding:14px 22px!important;
   border:none!important;
-  box-shadow:0 4px 16px rgba(232,160,191,0.25)!important;
+  box-shadow:0 4px 18px rgba(232,160,191,0.22)!important;
   word-wrap:break-word!important;
   overflow-wrap:break-word!important;
 }
 
-.n8n-chat .chat-message-user .chat-message-bubble,
-.n8n-chat .chat-message-user .chat-message-bubble *{
-  color:#fff!important;
+body .n8n-chat .chat-message-user .chat-message-bubble *{color:#fff!important}
+
+/* ============ INPUT ============ */
+body .n8n-chat .chat-input,
+body #n8n-chat .chat-input{
+  background:var(--glass)!important;backdrop-filter:blur(16px)!important;
+  border-top:1px solid var(--glass-border)!important;padding:14px 18px!important;
+}
+body .n8n-chat .chat-input textarea,
+body #n8n-chat .chat-input textarea{
+  font-family:'Outfit',sans-serif!important;font-size:14px!important;
+  background:rgba(255,255,255,0.65)!important;
+  border:1px solid rgba(232,160,191,0.15)!important;
+  border-radius:24px!important;padding:12px 20px!important;
+}
+body .n8n-chat .chat-input textarea:focus,
+body #n8n-chat .chat-input textarea:focus{
+  border-color:var(--rose)!important;
+  box-shadow:0 0 0 3px rgba(232,160,191,0.12)!important;
+}
+body .n8n-chat .chat-input button,
+body #n8n-chat .chat-input button{
+  background:linear-gradient(135deg,var(--rose),var(--mauve))!important;
+  border-radius:50%!important;
+  box-shadow:0 4px 14px rgba(232,160,191,0.3)!important;
+  transition:all 0.2s!important;
+}
+body .n8n-chat .chat-input button:hover,
+body #n8n-chat .chat-input button:hover{
+  transform:scale(1.08)!important;
+  box-shadow:0 6px 20px rgba(232,160,191,0.4)!important;
 }
 
-/* INPUT */
-.n8n-chat .chat-input{background:var(--glass)!important;backdrop-filter:blur(16px)!important;border-top:1px solid var(--glass-border)!important;padding:12px 16px!important}
-.n8n-chat .chat-input textarea{font-family:'Outfit',sans-serif!important;font-size:14px!important;background:rgba(255,255,255,0.65)!important;border:1.5px solid rgba(232,160,191,0.2)!important;border-radius:22px!important;padding:12px 20px!important}
-.n8n-chat .chat-input textarea:focus{border-color:var(--rose)!important;box-shadow:0 0 0 3px rgba(232,160,191,0.15)!important}
-.n8n-chat .chat-input button{background:linear-gradient(135deg,var(--rose),var(--mauve))!important;border-radius:50%!important;width:42px!important;height:42px!important;box-shadow:0 4px 14px rgba(232,160,191,0.3)!important;transition:all 0.2s!important}
-.n8n-chat .chat-input button:hover{transform:scale(1.05)!important;box-shadow:0 6px 20px rgba(232,160,191,0.4)!important}
-
-/* SOURCE TAG */
+/* ============ SOURCE TAG ============ */
 .ava-source-wrap{
   display:block!important;
-  margin-top:12px!important;
+  margin-top:14px!important;
   padding-top:8px!important;
-  border-top:1px dashed rgba(186,144,198,0.18)!important;
+  border-top:1px dashed rgba(186,144,198,0.15)!important;
 }
 .ava-source-text{
   font-size:8px!important;
@@ -174,7 +225,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
   display:block!important;
 }
 
-/* ERROR OVERLAY */
+/* Error overlay */
 .error-overlay{position:fixed;inset:0;z-index:999;background:rgba(255,248,240,0.92);backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;animation:fadeIn 0.4s ease}
 .error-overlay.show{display:flex}
 .error-ghost{font-size:72px;animation:sad-wobble 2s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(186,144,198,0.3))}
@@ -193,10 +244,10 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);height:100vh;displa
   .welcome h2{font-size:22px}.welcome-ghost{font-size:52px}
   .suggestions{gap:6px}.suggest-pill{font-size:12px;padding:8px 14px}
   .blob{opacity:0.3}
-  .n8n-chat .chat-message-bot{max-width:88%!important}
-  .n8n-chat .chat-message-user{max-width:80%!important}
+  body .n8n-chat .chat-message-bot{max-width:88%!important}
+  body .n8n-chat .chat-message-user{max-width:80%!important}
 }
-@media(prefers-reduced-motion:reduce){.blob,.ava-avatar,.welcome-ghost,.status-dot,.error-ghost{animation:none}.suggest-pill,.error-retry,.back-btn{transition:none}}
+@media(prefers-reduced-motion:reduce){.blob,.ava-avatar,.welcome-ghost,.status-dot,.error-ghost{animation:none}}
 </style>
 </head>
 <body>
@@ -264,49 +315,38 @@ function initChat() {
     metadata: { sessionId: sessionId },
   });
 
-  // Error monitor — only after user sends message
-  let userSentMessage = false;
+  // Error monitor
+  let userSent = false;
   setTimeout(() => {
-    const chatMessages = document.querySelector('.n8n-chat .chat-messages-list');
-    if (!chatMessages) return;
-    const observer = new MutationObserver((mutations) => {
-      const userBubbles = chatMessages.querySelectorAll('.chat-message-user');
-      if (userBubbles.length > 0) userSentMessage = true;
-      if (!userSentMessage) return;
-      mutations.forEach((m) => {
-        m.addedNodes.forEach((node) => {
-          if (node.nodeType === 1 && node.textContent) {
-            const txt = node.textContent.toLowerCase();
-            if (txt.includes('error in workflow') || txt.includes('too many requests')) {
-              showError();
-            }
-          }
-        });
-      });
-    });
-    observer.observe(chatMessages, { childList: true, subtree: true });
+    const list = document.querySelector('.n8n-chat .chat-messages-list');
+    if (!list) return;
+    new MutationObserver((muts) => {
+      if (list.querySelectorAll('.chat-message-user').length > 0) userSent = true;
+      if (!userSent) return;
+      muts.forEach(m => m.addedNodes.forEach(n => {
+        if (n.nodeType === 1 && n.textContent) {
+          const t = n.textContent.toLowerCase();
+          if (t.includes('error in workflow') || t.includes('too many requests')) showError();
+        }
+      }));
+    }).observe(list, { childList: true, subtree: true });
   }, 2000);
 
-  // Source text styler — aggressive innerHTML replace
+  // Source styler
   setInterval(() => {
-    const bubbles = document.querySelectorAll('.n8n-chat .chat-message-bot .chat-message-bubble');
-    bubbles.forEach(bubble => {
-      if (bubble.dataset.srcDone) return;
-      const rawHTML = bubble.innerHTML;
-      if (rawHTML.includes('Source:') && !rawHTML.includes('ava-source')) {
-        // Replace Source: ... with styled version
-        // Handle: "Source: xyz" at end of text, or after <br>, or inside <p>, or inside <li>
-        // Split at Source: and wrap everything after it
-        const srcIdx = rawHTML.search(/Source:/i);
-        if (srcIdx > -1) {
-          const before = rawHTML.substring(0, srcIdx);
-          const after = rawHTML.substring(srcIdx);
-          // Remove Source text from any parent tags and wrap
-          const cleanSource = after.replace(/<[^>]*>/g, '');
-          bubble.innerHTML = before + '<div class="ava-source-wrap"><span class="ava-source-text">📎 ' + cleanSource + '</span></div>';
-        }
-        bubble.dataset.srcDone = '1';
-      }
+    document.querySelectorAll('.n8n-chat .chat-message-bot .chat-message-bubble').forEach(b => {
+      if (b.dataset.srcDone) return;
+      const h = b.innerHTML;
+      const i = h.search(/Source:/i);
+      if (i === -1) return;
+      // Everything before "Source:" stays as content
+      // Everything from "Source:" onwards becomes tiny
+      let before = h.substring(0, i);
+      let after = h.substring(i).replace(/<[^>]*>/g, ''); // strip tags from source part
+      // Clean trailing <br> or </p> from before
+      before = before.replace(/(<br\s*\/?>|\s)+$/gi, '');
+      b.innerHTML = before + '<div class="ava-source-wrap"><span class="ava-source-text">📎 ' + after.trim() + '</span></div>';
+      b.dataset.srcDone = '1';
     });
   }, 300);
 }
